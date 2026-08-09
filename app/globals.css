@@ -1,26 +1,144 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Core palette — grounded in TrackCare's real brand marks */
+  --paper: #F6F8F9;         /* clinical cool white, not warm cream */
+  --paper-dim: #EEF2F4;
+  --ink: #0A1420;           /* near-black navy ink */
+  --ink-soft: #435368;
+
+  --navy-950: #051221;      /* monitor-black hero background */
+  --navy-900: #0A1D31;
+  --navy-800: #102B45;
+  --navy-700: #163C5C;
+
+  --brand-blue: #0072CE;    /* TrackCare Blue */
+  --brand-blue-soft: #3D96E0;
+  --brand-green: #10B981;   /* Success / Accent Green */
+  --clinical-teal: #0EA5E9;
+  --signal-amber: #F59E0B;
+  --signal-red: #EF4444;
+
+  --line: #DCE3E8;
+  --line-dark: rgba(255,255,255,0.12);
+
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-paper: var(--paper);
+  --color-paper-dim: var(--paper-dim);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+
+  --color-navy-950: var(--navy-950);
+  --color-navy-900: var(--navy-900);
+  --color-navy-800: var(--navy-800);
+  --color-navy-700: var(--navy-700);
+
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-blue-soft: var(--brand-blue-soft);
+  --color-brand-green: var(--brand-green);
+  --color-clinical-teal: var(--clinical-teal);
+  --color-signal-amber: var(--signal-amber);
+  --color-signal-red: var(--signal-red);
+
+  --color-line: var(--line);
+  --color-line-dark: var(--line-dark);
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  border-color: var(--line);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+::selection {
+  background: var(--brand-green);
+  color: var(--navy-950);
+}
+
+/* Utility: eyebrow / mono label */
+.mono-label {
+  font-family: var(--font-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Utility: hairline divider */
+.hairline {
+  height: 1px;
+  background: var(--line);
+}
+
+.hairline-dark {
+  height: 1px;
+  background: var(--line-dark);
+}
+
+/* Focus visibility */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--brand-green);
+  outline-offset: 3px;
+}
+
+/* Pulse trace draw-in */
+@keyframes trace-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Looping pulse for live indicators */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.72); }
+}
+
+.pulse-dot {
+  animation: pulse-dot 1.8s ease-in-out infinite;
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) rotate(var(--rot, -3deg)); }
+  50% { transform: translateY(-10px) rotate(var(--rot, -3deg)); }
+}
+
+.float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  animation: marquee-scroll 28s linear infinite;
 }
